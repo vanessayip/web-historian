@@ -10,10 +10,21 @@ exports.headers = {
   'Content-Type': 'text/html'
 };
 
+exports.getAsset = function(assetPath) {
+  var content;
+  //From stack overflow
+  fs.readFile(assetPath, function read(data) {
+    content = data;      
+  });
+  console.log('Content: ', content);
+  return content;
+};
 exports.serveAssets = function(res, asset, callback) {
   // Write some code here that helps serve up your static files!
   // (Static files are things like html (yours or archived from others...),
   // css, or anything that doesn't change often.)
+
+  //access archive.paths.siteAssets, find index.html
 };
 
 

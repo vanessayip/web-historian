@@ -26,16 +26,54 @@ exports.initialize = function(pathsObj) {
 // modularize your code. Keep it clean!
 
 exports.readListOfUrls = function(callback) {
+  var content;
+  fs.readFile(this.paths.list, 'utf-8', (err, data) => {
+    if (err) { throw err; }
+    content = data;
+    content = content.split('\n');
+    callback(content);
+  });
+  
 };
 
 exports.isUrlInList = function(url, callback) {
+  var content;
+  fs.readFile(this.paths.list, 'utf-8', (err, data) => {
+    if (err) {
+      throw err;
+    }
+    content = data.split('\n');
+    for (var i = 0; i < content.length; i++) {
+      if (content[i] === url) {
+        callback(true);
+        return;
+      }
+    }
+    callback(false);
+  });  
 };
 
 exports.addUrlToList = function(url, callback) {
+  fs.writeFile(this.paths.list, url, 'utf-8', () => {
+    callback();  
+  });
 };
 
 exports.isUrlArchived = function(url, callback) {
+  //check fs if url is archived
+  var content;
+  fs.readFile(this.paths.archivedSites + '/' + url, 'utf-8', (err, data) => {
+    if (err) { 
+      callback(false); 
+      return; 
+    }
+ 
+    callback(true);
+  
+  });
 };
 
 exports.downloadUrls = function(urls) {
+  //get url and go to the internet and fetch the asset
+  //add the asset to the archive
 };

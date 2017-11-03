@@ -24,7 +24,42 @@ exports.serveAssets = function(res, asset, callback) {
   // (Static files are things like html (yours or archived from others...),
   // css, or anything that doesn't change often.)
 
-  //access archive.paths.siteAssets, find index.html
+  //read a file using fs.readFile
+  fs.readFile(archive.paths.archivedSites + '/' + asset, 'utf-8', (err, data) => {
+    if (err) { 
+      throw err; 
+    }
+    callback(data);
+  });
+
+
+    //if error, throw error
+    //if success, take the data and put it in res' body
+      //make sure response ends
+};
+
+exports.serveIndex = function (res, url, callback) {
+  var needCSS = url.slice(-4) === 'html';
+  console.log('inside si');
+  fs.readFile(archive.paths.siteAssets + '/' + url, 'utf-8', (err, data) => {
+    console.log('url',url);
+    if (err) { 
+      console.log('error from serveindex', err);
+      throw err; 
+    }
+    
+    if (needCSS) {
+      fs.readFile(archive.paths.siteAssets + '/styles.css'), 'utf-8', (err, data) => {
+        if (err) { 
+          console.log('error from styles read file', err);
+          throw err; 
+        }
+        callback('<script>' + data + '</script>');
+      };
+    } 
+
+    callback(data);
+  });
 };
 
 

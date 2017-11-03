@@ -16,7 +16,7 @@ archive.initialize({
 var request = supertest.agent(server);
 
 describe('server', function() {
-  describe('GET /', function () {
+  xdescribe('GET /', function () {
     it('should return the content of index.html', function (done) {
       // just assume that if it contains an <input> tag its index.html
       request
@@ -26,22 +26,24 @@ describe('server', function() {
   });
 
   describe('archived websites', function () {
-    describe('GET', function () {
+    xdescribe('GET', function () {
       it('should return the content of a website from the archive', function (done) {
-        var fixtureName = 'www.google.com';
+        var fixtureName = 'www.amazon.com';
         var fixturePath = archive.paths.archivedSites + '/' + fixtureName;
 
         // Create or clear the file.
         var fd = fs.openSync(fixturePath, 'w');
-        fs.writeSync(fd, 'google');
+        console.log('fixturepath', fixturePath);
+        fs.writeSync(fd, 'amazon');
         fs.closeSync(fd);
 
         // Write data to the file.
-        fs.writeFileSync(fixturePath, 'google');
+        fs.writeFileSync(fixturePath, 'amazon');
+
 
         request
           .get('/' + fixtureName)
-          .expect(200, /google/, function (err) {
+          .expect(200, /amazon/, function (err) {
             fs.unlinkSync(fixturePath);
             done(err);
           });
@@ -76,7 +78,7 @@ describe('server', function() {
   });
 });
 
-describe('archive helpers', function() {
+xdescribe('archive helpers', function() {
   describe('#readListOfUrls', function () {
     it('should read urls from sites.txt', function (done) {
       var urlArray = ['example1.com', 'example2.com'];
@@ -89,7 +91,7 @@ describe('archive helpers', function() {
     });
   });
 
-  describe('#isUrlInList', function () {
+  xdescribe('#isUrlInList', function () {
     it('should check if a url is in the list', function (done) {
       var urlArray = ['example1.com', 'example2.com'];
       fs.writeFileSync(archive.paths.list, urlArray.join('\n'));
@@ -109,7 +111,7 @@ describe('archive helpers', function() {
     });
   });
 
-  describe('#addUrlToList', function () {
+  xdescribe('#addUrlToList', function () {
     it('should add a url to the list', function (done) {
       var urlArray = ['example1.com', 'example2.com\n'];
       fs.writeFileSync(archive.paths.list, urlArray.join('\n'));
@@ -123,7 +125,7 @@ describe('archive helpers', function() {
     });
   });
 
-  describe('#isUrlArchived', function () {
+  xdescribe('#isUrlArchived', function () {
     it('should check if a url is archived', function (done) {
       fs.writeFileSync(archive.paths.archivedSites + '/www.example.com', 'blah blah');
 
@@ -142,7 +144,7 @@ describe('archive helpers', function() {
     });
   });
 
-  describe('#downloadUrls', function () {
+  xdescribe('#downloadUrls', function () {
     it('should download all pending urls in the list', function (done) {
       var urlArray = ['www.example.com', 'www.google.com'];
       archive.downloadUrls(urlArray);

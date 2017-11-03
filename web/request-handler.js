@@ -68,15 +68,15 @@ exports.handleRequest = function (req, res) {
 
       console.log('body', body);
       var parsedBody = querystring.parse(body);
-console.log('body', parsedBody);
-console.log(parsedBody.url);
+      console.log('body', parsedBody);
+      console.log(parsedBody.url);
       var curURL = parsedBody.url;
       // res.writeHead(302, httpHelpers.headers);
       //check if urlisarchived
       archive.isUrlArchived(curURL, function(exists) {
         console.log('exists', exists);
         if (exists) {
-          console.log('inside cb exists')
+          console.log('inside cb exists');
           httpHelpers.serveAssets(res, curURL, function(data) {
             console.log('Inside the serve assets');//status not being hit
             res.writeHead(302, httpHelpers.headers);
@@ -84,8 +84,8 @@ console.log(parsedBody.url);
             res.end(data);
           });
         } else {
-          console.log('inside else')
-          console.log('curURL',curURL)
+          console.log('inside else');
+          console.log('curURL',curURL);
           httpHelpers.serveIndex(res, 'loading.html', function(data) {
             console.log('inside serveindex', data);
             res.writeHead(302, httpHelpers.headers);

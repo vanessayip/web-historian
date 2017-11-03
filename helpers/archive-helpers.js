@@ -61,11 +61,11 @@ exports.addUrlToList = function(url, callback) {
 
 exports.isUrlArchived = function(url, callback) {
   //check fs if url is archived
-    console.log('IN THE URL ARCHIVED');
-console.log(url);
+  console.log('IN THE URL ARCHIVED');
+  console.log(url);
   fs.readFile(this.paths.archivedSites + '/' + url, 'utf-8', (err, data) => {
     if (err) { 
-      console.log('urlarchived error', err)
+      console.log('urlarchived error', err);
       callback(false); 
       return; 
     }
